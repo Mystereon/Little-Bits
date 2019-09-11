@@ -42,23 +42,30 @@ double vbat = 0.0;
 int discharge,charge;
 double temp = 0.0;
 double bat_p = 0.0;
-
+extern const unsigned char gImage_logo[];
 void loop() {
-
+ M5.Lcd.fillScreen(WHITE);
+  M5.Lcd.drawBitmap(0, 0, 80, 160,(uint16_t *)gImage_logo);
+  M5.Lcd.setCursor(35, 27);
+  M5.Lcd.setTextSize(2);
+  M5.Lcd.setTextColor(BLACK);
+  M5.Lcd.println(F("M5-STICKC"));
+  delay(2000);
   //Display a simple splash screen
   M5.Lcd.fillRect(0, 0, 160, 80, 0xFFFF);
   M5.Lcd.fillRect(4, 4, 150, 75, 0x0100);
   M5.Lcd.fillScreen(BLUE);
   M5.Lcd.setTextSize(2);
   M5.Lcd.setTextColor(TFT_WHITE,BLUE);
-  M5.Lcd.setCursor(40, 7);
+  M5.Lcd.setCursor(45, 7);
   M5.Lcd.println(F(" LIL' "));
   M5.Lcd.setCursor(35, 27);
   M5.Lcd.println(F("  BITS  "));
   M5.Lcd.setCursor(35, 47);
   M5.Lcd.println(F("Automata"));
-
-  delay(1000);
+  M5.Lcd.setCursor(20, 65);
+  M5.Lcd.println(F("tEaM-kIsMeT"));
+  delay(3000);
  
   M5.Lcd.fillScreen(random(0xFFFF));
 
@@ -76,18 +83,18 @@ void loop() {
     if(digitalRead(M5_BUTTON_RST) == LOW){statusSys();M5.Lcd.setRotation(3);}
   vbat      = M5.Axp.GetVbatData() * 1.1 / 1000;
   M5.Lcd.setTextColor(TFT_WHITE,TFT_GREY);
-    M5.Lcd.setCursor(0, 0);
+    M5.Lcd.setCursor(65, 0);
     M5.Lcd.setTextSize(1);
     M5.Lcd.println(gen);
-     M5.Lcd.setCursor(0, 70);
+     M5.Lcd.setCursor(60, 70);
     M5.Lcd.setTextSize(1);
-    M5.Lcd.printf("vbat:%.3fV\r\n",vbat);
+    M5.Lcd.printf("%.3fV\r\n",vbat);
     if (vbat <= 3.8 ){M5.Lcd.setCursor(40, 30);
     M5.Lcd.setTextSize(2);
     M5.Lcd.printf("FEED ME");}
     
     
-    delay(GEN_DELAY+random(20));
+    delay(GEN_DELAY+random(40));
     
     computeCA();
     drawGrid();
