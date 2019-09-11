@@ -27,30 +27,37 @@ uint8_t newgrid[GRIDX][GRIDY];
 uint16_t genCount = 0;
 
                       void setup()   {
+                        
                       
                         //Set up the display
                         M5.begin();
-                        M5.Lcd.setRotation(3);
+                        M5.Lcd.setRotation(0);
                         M5.Lcd.fillScreen(TFT_RED);
                         M5.Lcd.setTextSize(1);
                         M5.Lcd.setTextColor(TFT_WHITE);
                         M5.Lcd.setCursor(0, 0);
                        M5.Axp.EnableCoulombcounter();
+                       extern const unsigned char gImage_logo[];
+                       M5.Lcd.fillScreen(WHITE);
+                        M5.Lcd.drawBitmap(0, 0, 80, 160,(uint16_t *)gImage_logo);
+                        M5.Lcd.setCursor(35, 27);
+                        M5.Lcd.setTextSize(2);
+                        // M5.Lcd.setTextColor(BLACK);
+                       // M5.Lcd.println(F("M5-STICKC"));
+                        delay(2000);
+                        extern const unsigned char gImage_002[];
+                        M5.Lcd.fillScreen(WHITE);
+                        M5.Lcd.drawBitmap(0, 0, 80, 160,(uint16_t *)gImage_002);
+                        delay(2000);
                       }
 
 double vbat = 0.0;
 int discharge,charge;
 double temp = 0.0;
 double bat_p = 0.0;
-extern const unsigned char gImage_logo[];
+
 void loop() {
- M5.Lcd.fillScreen(WHITE);
-  M5.Lcd.drawBitmap(0, 0, 80, 160,(uint16_t *)gImage_logo);
-  M5.Lcd.setCursor(35, 27);
-  M5.Lcd.setTextSize(2);
-  M5.Lcd.setTextColor(BLACK);
-  M5.Lcd.println(F("M5-STICKC"));
-  delay(2000);
+  M5.Lcd.setRotation(3);
   //Display a simple splash screen
   M5.Lcd.fillRect(0, 0, 160, 80, 0xFFFF);
   M5.Lcd.fillRect(4, 4, 150, 75, 0x0100);
