@@ -9,11 +9,11 @@
 //#define CELLXY 4
 #define TFT_GREY 0x1010
 #define TFT_ORANGE 0xFFA5
-#define GRIDX 80
+#define GRIDX 60
 #define GRIDY 40
 #define CELLXY 2
 
-#define GEN_DELAY 60
+int runt = 0;
 
 //Current grid
 uint8_t grid[GRIDX][GRIDY];
@@ -22,7 +22,7 @@ uint8_t grid[GRIDX][GRIDY];
 uint8_t newgrid[GRIDX][GRIDY];
 
 //Number of generations
-#define NUMGEN 1000
+#define NUMGEN 999
 
 uint16_t genCount = 0;
 
@@ -42,12 +42,12 @@ uint16_t genCount = 0;
                         M5.Lcd.drawBitmap(0, 0, 80, 160,(uint16_t *)gImage_logo);
                         M5.Lcd.setCursor(35, 27);
                         M5.Lcd.setTextSize(2);
-                        // M5.Lcd.setTextColor(BLACK);
-                       // M5.Lcd.println(F("M5-STICKC"));
                         delay(2000);
                         extern const unsigned char gImage_002[];
+                       
                         M5.Lcd.fillScreen(WHITE);
                         M5.Lcd.drawBitmap(0, 0, 80, 160,(uint16_t *)gImage_002);
+                        
                         delay(2000);
                       }
 
@@ -57,7 +57,9 @@ double temp = 0.0;
 double bat_p = 0.0;
 
 void loop() {
+  
   M5.Lcd.setRotation(3);
+int GEN_DELAY = analogRead(G0)/100;
   //Display a simple splash screen
   M5.Lcd.fillRect(0, 0, 160, 80, 0xFFFF);
   M5.Lcd.fillRect(4, 4, 150, 75, 0x0100);
@@ -89,19 +91,29 @@ void loop() {
     M5.Lcd.println(F("  NUKE  "));delay(GEN_DELAY*random(20)); M5.Lcd.fillScreen(random(0xFFFF));}
     if(digitalRead(M5_BUTTON_RST) == LOW){statusSys();M5.Lcd.setRotation(3);}
   vbat      = M5.Axp.GetVbatData() * 1.1 / 1000;
-  M5.Lcd.setTextColor(TFT_WHITE,TFT_GREY);
-    M5.Lcd.setCursor(65, 0);
-    M5.Lcd.setTextSize(1);
-    M5.Lcd.println(gen);
-     M5.Lcd.setCursor(60, 70);
-    M5.Lcd.setTextSize(1);
-    M5.Lcd.printf("%.3fV\r\n",vbat);
-    if (vbat <= 3.8 ){M5.Lcd.setCursor(40, 30);
+    M5.Lcd.setTextColor(TFT_WHITE,BLACK);
+    M5.Lcd.setCursor(120, 00);
     M5.Lcd.setTextSize(2);
+    M5.Lcd.println("GEN");
+    M5.Lcd.setCursor(120, 20);
+    M5.Lcd.setTextSize(2);
+    M5.Lcd.println(gen);
+    M5.Lcd.setCursor(120, 40);
+    M5.Lcd.setTextSize(2);
+    M5.Lcd.println("RUN");
+    M5.Lcd.setCursor(120, 60);
+    M5.Lcd.setTextSize(2);
+    M5.Lcd.println(runt);
+     M5.Lcd.setCursor(0, 70);
+    M5.Lcd.setTextSize(1);
+    M5.Lcd.setTextColor(BLACK,RED);
+    M5.Lcd.printf("%.3fV\r\n",vbat);
+    if (vbat <= 3.8 ){M5.Lcd.setCursor(20, 30);
+    M5.Lcd.setTextSize(3);
     M5.Lcd.printf("FEED ME");}
     
     
-    delay(GEN_DELAY+random(40));
+    delay(GEN_DELAY);
     
     computeCA();
     drawGrid();
@@ -149,6 +161,7 @@ void initGrid(void) {
 
     }
   }
+  runt++;
 }
 
 //Compute the CA. Basically everything related to CA starts here
