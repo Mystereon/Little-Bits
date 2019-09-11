@@ -48,11 +48,11 @@ void loop() {
   //Display a simple splash screen
   M5.Lcd.fillRect(0, 0, 160, 80, 0xFFFF);
   M5.Lcd.fillRect(4, 4, 150, 75, 0x0100);
-  //M5.Lcd.fillScreen(TFT_ORANGE);
+  M5.Lcd.fillScreen(BLUE);
   M5.Lcd.setTextSize(2);
-  M5.Lcd.setTextColor(TFT_WHITE,TFT_GREY);
+  M5.Lcd.setTextColor(TFT_WHITE,BLUE);
   M5.Lcd.setCursor(40, 7);
-  M5.Lcd.println(F(" LITTLE"));
+  M5.Lcd.println(F(" LIL' "));
   M5.Lcd.setCursor(35, 27);
   M5.Lcd.println(F("  BITS  "));
   M5.Lcd.setCursor(35, 47);
@@ -74,7 +74,7 @@ void loop() {
     if(digitalRead(M5_BUTTON_HOME) == LOW){initGrid();gen = 0; M5.Lcd.setTextSize(2); M5.Lcd.fillScreen(TFT_BLACK); M5.Lcd.setTextColor(TFT_WHITE,TFT_GREY); M5.Lcd.setCursor(35, 27);
     M5.Lcd.println(F("  NUKE  "));delay(GEN_DELAY*random(20)); M5.Lcd.fillScreen(random(0xFFFF));}
     if(digitalRead(M5_BUTTON_RST) == LOW){statusSys();M5.Lcd.setRotation(3);}
-  
+  vbat      = M5.Axp.GetVbatData() * 1.1 / 1000;
   M5.Lcd.setTextColor(TFT_WHITE,TFT_GREY);
     M5.Lcd.setCursor(0, 0);
     M5.Lcd.setTextSize(1);
@@ -82,10 +82,10 @@ void loop() {
      M5.Lcd.setCursor(0, 70);
     M5.Lcd.setTextSize(1);
     M5.Lcd.printf("vbat:%.3fV\r\n",vbat);
-    if (vbat <= 3.7 ){M5.Lcd.setCursor(40, 30);
+    if (vbat <= 3.8 ){M5.Lcd.setCursor(40, 30);
     M5.Lcd.setTextSize(2);
     M5.Lcd.printf("FEED ME");}
-      
+    
     
     delay(GEN_DELAY+random(20));
     
@@ -162,15 +162,13 @@ int getNumberOfNeighbors(int x, int y) {
               }
               
               void statusSys() {
-                M5.Lcd.setTextSize(2);
-                M5.Lcd.fillScreen(RED);
+                M5.Lcd.setTextSize(1);
+                M5.Lcd.fillScreen(BLUE);
                M5.Lcd.setTextColor(TFT_WHITE,TFT_GREY);
               while(digitalRead(M5_BUTTON_HOME) == HIGH){
                 
                 
                 vbat      = M5.Axp.GetVbatData() * 1.1 / 1000;
-                charge    = M5.Axp.GetIchargeData() / 2;
-                discharge = M5.Axp.GetIdischargeData() / 2;
                 temp      =  -144.7 + M5.Axp.GetTempData() * 0.1;
                 bat_p     =  M5.Axp.GetPowerbatData() * 1.1 * 0.5 /1000;
                 M5.Lcd.setRotation(3);
