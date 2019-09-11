@@ -4,15 +4,22 @@
 
 #include <M5StickC.h>
 
-//#define GRIDX 80
-//#define GRIDY 60
-//#define CELLXY 4
+        //ULTLORES
+//        #define GRIDX 30
+//        #define GRIDY 20
+//        #define CELLXY 4
+        //LORES
+        #define GRIDX 60
+        #define GRIDY 40
+        #define CELLXY 2
+        
+//HIRES
+//#define GRIDX 120
+//#define GRIDY 80
+//#define CELLXY 1
+
 #define TFT_GREY 0x1010
 #define TFT_ORANGE 0xFFA5
-#define GRIDX 60
-#define GRIDY 40
-#define CELLXY 2
-
 int runt = 0;
 
 //Current grid
@@ -37,18 +44,20 @@ uint16_t genCount = 0;
                         M5.Lcd.setTextColor(TFT_WHITE);
                         M5.Lcd.setCursor(0, 0);
                        M5.Axp.EnableCoulombcounter();
-                       extern const unsigned char gImage_logo[];
-                       M5.Lcd.fillScreen(WHITE);
-                        M5.Lcd.drawBitmap(0, 0, 80, 160,(uint16_t *)gImage_logo);
-                        M5.Lcd.setCursor(35, 27);
-                        M5.Lcd.setTextSize(2);
-                        delay(2000);
+          
                         extern const unsigned char gImage_002[];
                        
                         M5.Lcd.fillScreen(WHITE);
                         M5.Lcd.drawBitmap(0, 0, 80, 160,(uint16_t *)gImage_002);
                         
                         delay(2000);
+                        M5.Lcd.setRotation(3);
+                         M5.Lcd.setTextSize(2);
+                          M5.Lcd.setTextColor(BLACK,WHITE);
+                          M5.Lcd.setCursor(5, 50);
+                          M5.Lcd.println(F(" LITTLE BITS  "));
+                        
+                          delay(6000);
                       }
 
 double vbat = 0.0;
@@ -58,23 +67,10 @@ double bat_p = 0.0;
 
 void loop() {
   
-  M5.Lcd.setRotation(3);
-int GEN_DELAY = analogRead(G0)/100;
+  
+int GEN_DELAY = analogRead(G0)/200;
   //Display a simple splash screen
-  M5.Lcd.fillRect(0, 0, 160, 80, 0xFFFF);
-  M5.Lcd.fillRect(4, 4, 150, 75, 0x0100);
-  M5.Lcd.fillScreen(BLUE);
-  M5.Lcd.setTextSize(2);
-  M5.Lcd.setTextColor(TFT_WHITE,BLUE);
-  M5.Lcd.setCursor(45, 7);
-  M5.Lcd.println(F(" LIL' "));
-  M5.Lcd.setCursor(35, 27);
-  M5.Lcd.println(F("  BITS  "));
-  M5.Lcd.setCursor(35, 47);
-  M5.Lcd.println(F("Automata"));
-  M5.Lcd.setCursor(20, 65);
-  M5.Lcd.println(F("tEaM-kIsMeT"));
-  delay(3000);
+ 
  
   M5.Lcd.fillScreen(random(0xFFFF));
 
@@ -88,7 +84,7 @@ int GEN_DELAY = analogRead(G0)/100;
   for (int gen = 0; gen < genCount; gen++)
   {
     if(digitalRead(M5_BUTTON_HOME) == LOW){initGrid();gen = 0; M5.Lcd.setTextSize(2); M5.Lcd.fillScreen(TFT_BLACK); M5.Lcd.setTextColor(TFT_WHITE,TFT_GREY); M5.Lcd.setCursor(35, 27);
-    M5.Lcd.println(F("  NUKE  "));delay(GEN_DELAY*random(20)); M5.Lcd.fillScreen(random(0xFFFF));}
+    M5.Lcd.println(F("  NUKE  "));delay(GEN_DELAY*random(20)); M5.Lcd.fillScreen(random(0xFFFF));runt--;int GEN_DELAY = analogRead(G0)/200;}
     if(digitalRead(M5_BUTTON_RST) == LOW){statusSys();M5.Lcd.setRotation(3);}
   vbat      = M5.Axp.GetVbatData() * 1.1 / 1000;
     M5.Lcd.setTextColor(TFT_WHITE,BLACK);
@@ -189,9 +185,13 @@ int getNumberOfNeighbors(int x, int y) {
               }
               
               void statusSys() {
-                M5.Lcd.setTextSize(1);
+                M5.Lcd.setRotation(0);
+                extern const unsigned char gImage_002[];
+                M5.Lcd.setTextSize(2);
                 M5.Lcd.fillScreen(BLUE);
-               M5.Lcd.setTextColor(TFT_WHITE,TFT_GREY);
+                M5.Lcd.drawBitmap(0, 0, 80, 160,(uint16_t *)gImage_002);
+                        
+               M5.Lcd.setTextColor(BLACK,WHITE);
               while(digitalRead(M5_BUTTON_HOME) == HIGH){
                 
                 
