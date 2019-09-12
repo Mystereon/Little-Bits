@@ -34,7 +34,8 @@ uint8_t newgrid[GRIDX][GRIDY];
 uint16_t genCount = 0;
 
                       void setup()   {
-                        
+                         pinMode(M5_LED, OUTPUT);
+                         digitalWrite(M5_LED, LOW);
                       
                         //Set up the display
                         M5.begin();
@@ -108,7 +109,7 @@ int GEN_DELAY = analogRead(G0)/200;
     M5.Lcd.setTextSize(3);
     M5.Lcd.printf("FEED ME");}
     
-    
+    digitalWrite(M5_LED, HIGH);
     delay(GEN_DELAY);
     
     computeCA();
@@ -205,6 +206,6 @@ int getNumberOfNeighbors(int x, int y) {
                 M5.Lcd.printf("power:%.3fmW\r\n",bat_p);  //battery power
                 
                 }
-  
+  digitalWrite(M5_LED, LOW);
   delay(200);
 }
