@@ -1,7 +1,7 @@
 # Little-Bits
 Cellular Life Automata in colour with Nuke for M5stickC  - create life , it asks to be fed.
 http://community.m5stack.com/topic/1313/little-bits-cellular-automata-in-colour-for-m5stick-c
-
+http://www.conwaylife.com/wiki/Conway%27s_Game_of_Life
 A little rewrite of the Cellular Automata demo supplied with the MstickC display library in colour
 with an optional 'nuke' from the m5 button , and a battery and temp monitor on the side button .
 As the battery falls below 3.8v it will ask to be fed -- i.e plugged into USB
