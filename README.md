@@ -9,5 +9,5 @@ I do like the way it erodes the background as life spreads.
 I will be adding more as the pocket lava lamp concept is rather fun :). 
 I shall mindmap the functions and see how the IMU could play out in this , plus maybe an IR trigger
 that could interact with other sticks like a furby would.
-
+http://lazyslug.no-ip.biz/lifeview/  <-- this inspires me
 Enjoy :)
