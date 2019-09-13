@@ -280,15 +280,17 @@ void WS2812PLAYG() {
 }
 // menu select resolution
 void setres(){                           extern const unsigned char gImage_002[];
+                                         M5.Lcd.setRotation(0);
                                         M5.Lcd.setTextColor(BLACK, WHITE); 
                                         M5.Lcd.setTextSize(2);  
                                         M5.Lcd.drawBitmap(0, 0, 80, 160, (uint16_t *)gImage_002);
+                                         M5.Lcd.setRotation(3);
                                         while (digitalRead(M5_BUTTON_HOME) == HIGH){
-                                          M5.Lcd.setCursor(5, 0);
+                                          M5.Lcd.setCursor(5, 5);
                                         M5.Lcd.println(F(" LITTLE BITS  "));
-                                        M5.Lcd.setCursor(15, 60);
-                                        M5.Lcd.println(F(" set Res "));
-                                        M5.Lcd.setCursor(95, 60);
+                                        M5.Lcd.setCursor(5, 60);
+                                        M5.Lcd.println(F(" set Res"));
+                                        M5.Lcd.setCursor(120, 60);
                                         M5.Lcd.println(res );
                                         if (digitalRead(M5_BUTTON_RST) == LOW) { res++; }
                                         if (res == 5) { res = 1;}
@@ -297,8 +299,9 @@ void setres(){                           extern const unsigned char gImage_002[]
                                         if (res ==2) { viewx = 60; viewy = 40;}
                                         if (res ==3) { viewx = 40; viewy = 30;}
                                         if (res ==4) { viewx = 30; viewy = 20;}
-                                        delay(500);
+                                        delay(200);
                                        
                                         }
-                                        M5.Lcd.drawBitmap(0, 0, 80, 160, (uint16_t *)gImage_002);
+                                        M5.Lcd.setRotation(0);
+                                        M5.Lcd.drawBitmap(0, 0, 80, 160, (uint16_t *)gImage_002);delay(1000);
 }
