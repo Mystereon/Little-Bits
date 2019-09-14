@@ -25,12 +25,13 @@ CRGB leds[8];
 int runt = 0;
 int res = 1;
 
+int rcolor = random(0xFFFF);
 
 
 
 //Number of generations
 #define NUMGEN 999
-
+int gens = NUMGEN;
 uint16_t genCount = 0;
 
 void setup()   {
@@ -84,7 +85,7 @@ double temp = 0.0;
 double bat_p = 0.0;
 void loop() {
 
-
+ 
   int GEN_DELAY = analogRead(G0) / 200;
   //Display a simple splash screen
 
@@ -98,11 +99,11 @@ void loop() {
   drawGrid();
 
   //Compute generations
-  for (int gen = 0; gen < genCount; gen++)
+  for (int gen = 0; gen < gens; gen++)
   {
     if (digitalRead(M5_BUTTON_HOME) == LOW) {
       initGrid(); gen = 0; M5.Lcd.setTextSize(2); M5.Lcd.fillScreen(TFT_BLACK); M5.Lcd.setTextColor(TFT_WHITE, TFT_GREY); M5.Lcd.setCursor(35, 27);
-      M5.Lcd.println(F("  NUKE  ")); delay(GEN_DELAY * random(20)); M5.Lcd.fillScreen(random(0xFFFF)); runt--; int GEN_DELAY = analogRead(G0) / 200;
+      M5.Lcd.println(F("  NUKE  ")); delay(GEN_DELAY * random(20)); rcolor = random(0xFFFF); M5.Lcd.fillScreen(random(0xFFFF)); runt--; int GEN_DELAY = analogRead(G0) / 200;
     }
     if (digitalRead(M5_BUTTON_RST) == LOW) {
       setres();
@@ -111,16 +112,16 @@ void loop() {
     vbat      = M5.Axp.GetVbatData() * 1.1 / 1000;
     M5.Lcd.fillRect(120, 0, 120, 80, BLACK);
     M5.Lcd.setTextColor(TFT_WHITE, BLACK);
-    M5.Lcd.setCursor(120, 00);
+    M5.Lcd.setCursor(122, 00);
     M5.Lcd.setTextSize(2);
     M5.Lcd.println("GEN");
-    M5.Lcd.setCursor(120, 20);
+    M5.Lcd.setCursor(122, 20);
     M5.Lcd.setTextSize(2);
     M5.Lcd.println(gen);
-    M5.Lcd.setCursor(120, 40);
+    M5.Lcd.setCursor(122, 40);
     M5.Lcd.setTextSize(2);
     M5.Lcd.println("RUN");
-    M5.Lcd.setCursor(120, 60);
+    M5.Lcd.setCursor(122, 60);
     M5.Lcd.setTextSize(2);
     M5.Lcd.println(runt);
     M5.Lcd.setCursor(0, 70);
@@ -152,11 +153,11 @@ void loop() {
 //Draws the grid on the display
 void drawGrid(void) {
 
-  uint16_t color = TFT_RED;
+int color = 0x0000;
   for (int16_t x = 1; x < 120 - 1; x++) {
     for (int16_t y = 1; y < 80 - 1; y++) {
       if ((grid[x][y]) != (newgrid[x][y])) {
-        if (newgrid[x][y] == 1) color = random(0xFFFF); //random(0xFFFF);
+        if (newgrid[x][y] == 1) color = rcolor; //random(0xFFFF);
         else color = 0;
         M5.Lcd.fillRect(res * x, res * y, res, res, color);
       }
@@ -167,6 +168,7 @@ void drawGrid(void) {
 //Initialise Grid
 void initGrid(void) {
   M5.Lcd.setRotation(3);
+  
   for (int16_t x = 0; x < viewx; x++) {
     for (int16_t y = 0; y < viewy; y++) {
       newgrid[x][y] = 0;
@@ -185,6 +187,7 @@ void initGrid(void) {
   }
   runt++;
   WS2812PLAYG();
+  rcolor == random(0xFFFF);
 }
 
 //Compute the CA. Basically everything related to CA starts here
@@ -192,12 +195,12 @@ void computeCA() {
   for (int16_t x = 1; x < viewx; x++) {
     for (int16_t y = 1; y < viewy; y++) {
       int neighbors = getNumberOfNeighbors(x, y);
-      if (grid[x][y] == 1 && (neighbors == 2 || neighbors == 3 ))
+      if (grid[x][y] == 1 && (neighbors == 2 || neighbors == 3  ))
       {
         newgrid[x][y] = 1;
       }
       else if (grid[x][y] == 1)  newgrid[x][y] = 0;
-      if (grid[x][y] == 0 && (neighbors == 3))
+      if (grid[x][y] == 0 && (neighbors == 3|| neighbors == 7))
       {
         newgrid[x][y] = 1;
       }
@@ -253,7 +256,7 @@ void WS2812PLAY() {
 
     // Show the leds (only one of which is set to white, from above)
     FastLED.show();
-
+    delay(100);
 
     // Turn our current led back to black for the next loop around
     leds[whiteLed] = CRGB::Black;
@@ -281,26 +284,27 @@ void WS2812PLAYG() {
 // menu select resolution
 void setres(){                           extern const unsigned char gImage_002[];
                                          M5.Lcd.setRotation(0);
-                                        M5.Lcd.setTextColor(BLACK, WHITE); 
+                                         rcolor == random(0xFFFF);
                                         M5.Lcd.setTextSize(2);  
                                         M5.Lcd.drawBitmap(0, 0, 80, 160, (uint16_t *)gImage_002);
                                          M5.Lcd.setRotation(3);
                                         while (digitalRead(M5_BUTTON_HOME) == HIGH){
                                           M5.Lcd.setCursor(5, 5);
+                                          M5.Lcd.setTextColor(BLACK, WHITE);
                                         M5.Lcd.println(F(" LITTLE BITS  "));
                                         M5.Lcd.setCursor(5, 60);
                                         M5.Lcd.println(F(" set Res"));
                                         M5.Lcd.setCursor(120, 60);
                                         M5.Lcd.println(res );
-                                        if (digitalRead(M5_BUTTON_RST) == LOW) { res++; }
+                                        if (digitalRead(M5_BUTTON_RST) == LOW) { res++; rcolor == random(0xFFFF); }
                                         if (res == 5) { res = 1;}
                                         CELLXY == res;
-                                        if (res ==1) { viewx = 120; viewy = 80;}
-                                        if (res ==2) { viewx = 60; viewy = 40;}
-                                        if (res ==3) { viewx = 40; viewy = 30;}
-                                        if (res ==4) { viewx = 30; viewy = 20;}
-                                        delay(200);
-                                       
+                                        if (res ==1) { viewx = 120; viewy = 80;gens = 999;}
+                                        if (res ==2) { viewx = 60; viewy = 40;gens = 750;}
+                                        if (res ==3) { viewx = 40; viewy = 30; gens = 500;}
+                                        if (res ==4) { viewx = 30; viewy = 20; gens = 300;}
+                                        delay(50);
+                                       void WS2812PLAY();
                                         }
                                         M5.Lcd.setRotation(0);
                                         M5.Lcd.drawBitmap(0, 0, 80, 160, (uint16_t *)gImage_002);delay(1000);
