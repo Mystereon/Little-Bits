@@ -11,3 +11,6 @@ I shall mindmap the functions and see how the IMU could play out in this , plus 
 that could interact with other sticks like a furby would.
 http://lazyslug.no-ip.biz/lifeview/  <-- this inspires me
 Enjoy :)
+
+
+Mar 22, 2020 - small change to button timing for resolution settings.
