@@ -2,7 +2,7 @@
 //devised by the British mathematician John Horton Conway in 1970.
 // https://en.wikipedia.org/wiki/Conway's_Game_of_Life
 
-#include <M5StickC.h>
+#include "src/M5StickC/M5StickC.h"
 
 //ULTLORES
 //        #define GRIDX 30
