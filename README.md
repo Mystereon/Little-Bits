@@ -11,3 +11,12 @@ I shall mindmap the functions and see how the IMU could play out in this , plus 
 that could interact with other sticks like a furby would.
 http://lazyslug.no-ip.biz/lifeview/  <-- this inspires me
 Enjoy :)
+
+## Libraries
+
+Because the Arduino IDE has been getting pretty bad handling libraries, I've included the libraries used in the src directory of the sketch. These libraries may have been slightly modified to work from the sketch directory, and do not include the examples.  
+
+
+Mar 22, 2020 - small change to button timing for resolution settings.
+
+
